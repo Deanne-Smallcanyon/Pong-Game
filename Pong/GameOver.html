@@ -1,0 +1,29 @@
+<html>
+ <head>
+  <title> Game Over </title>
+   <script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+   <script>
+	function run(){
+	var soundEffect = new Audio('Music/techno.mp3');
+		soundEffect.play();
+		sjs.open("target",800,550);
+	
+	var gameover = new sjs.Text("Loser!!!",40,"blue");
+		gameover.centerH();
+	var gameover = new sjs.Text("Play AGIAN?",30,"darkgrey");
+		gameover.centerH().offset(0,70);
+		
+	var restartBtn = new sjs.Button("Restart", function(){
+		window.location = "index.html";
+	});
+		restartBtn.centerH().offset(0, 150)
+		
+	} //end run
+   </script>
+ </head>
+<body onload="run()">
+	<h1> Game Over! </h1>
+
+	<div id="target" style="margin:auto;background:red;"></div>
+</body>
+</html>

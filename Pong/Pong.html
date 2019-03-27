@@ -1,0 +1,99 @@
+<html>
+ <head>
+ <title> Pong </title>
+  <script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+  <script>
+	function run(){
+	//open the canvas
+	sjs.open("target", 800, 550);
+	
+	//set up bobby
+	var bobbyTheBall = new sjs.Image("Images/basketball.png");
+	bobbyTheBall.type = "ball";
+	bobbyTheBall.friction = 0;
+	bobbyTheBall.setSize(60,60)
+	console.log(bobbyTheBall.getWidth());
+	
+	//set up patriciaThePaddle
+	var patriciaThePaddle = new sjs.Image("Images/pink.png");
+	patriciaThePaddle.type = "paddle";
+	patriciaThePaddle.friction = 0;
+	patriciaThePaddle.setSize (150,18);
+	
+	//set up patriciaThePaddle2
+	var patriciaThePaddle2 = new sjs.Image("Images/pink.png");
+	patriciaThePaddle2.type = "paddle2";
+	patriciaThePaddle2.friction = 0;
+	patriciaThePaddle2.setSize (150,18);
+	
+	//put stuff places
+	bobbyTheBall.center();
+	patriciaThePaddle.centerH();
+	patriciaThePaddle2.centerH().bottom();
+
+	console.log(bobbyTheBall.getY());
+	
+	bobbyTheBall.pushUp(5);
+	bobbyTheBall.pushRight(5);
+	console.log(bobbyTheBall.getY());
+
+	bobbyTheBall.bounce();
+	
+	//move the paddles
+	sjs.keyDown(LEFT_KEY, function(){
+		patriciaThePaddle.pushLeft();
+		});
+	sjs.keyDown(RIGHT_KEY, function(){
+		patriciaThePaddle.pushRight();
+		});
+		
+	patriciaThePaddle2.followx(sjs.mouse);
+	
+	//hit detection! where the game happens
+	sjs.onHit("ball", "paddle", function(ball,paddle){
+		sjs.bounceOff(ball, paddle);
+		});
+	sjs.onHit("ball", "paddle2", function(ball,paddle){
+		sjs.bounceOff(ball, paddle2);
+		});
+	
+	sjs.onHit("ball",["top_screen","bottom_screen"], function(){
+		window.location = "gameover.html";
+	});
+	
+	//Player 1 Score tracking
+	var score = 0;
+	var score_txt = new sjs.Text("Player 1 Score: 0", 24, "yellow");
+	var soundEffect = new Audio('Music/pop.mp3');
+    
+	sjs.onHit("ball", "paddle", function (ball, paddle){
+		sjs.bounceOff(ball, paddle);
+		score = score + 1;
+		score_txt.setText("Player 1 Score: "+score);
+		soundEffect.play();
+	});
+	
+	//Player 2 Score tracking
+	var score2 = 0;
+	var score2_txt = new sjs.Text("Player 2 Score: 0", 24, "orange");
+		score2_txt.bottom();
+	var soundEffect = new Audio('Music/pop.mp3');
+    
+	sjs.onHit("ball", "paddle2", function (ball, paddle2){
+		score2 = score + 1;
+		score2_txt.setText("Player 2 Score: "+score);
+		soundEffect.play();
+		sjs.bounceOff(ball, paddle2);
+	});
+	}//end run function
+	
+  </script>
+ </head>
+
+<body onload="run()">
+	<h1> Pong </h1>
+  <div id="target" style="margin:auto;background:lightblue;">
+  </div>
+ </body>
+ 
+</html>
